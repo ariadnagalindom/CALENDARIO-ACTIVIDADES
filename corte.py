@@ -7,35 +7,38 @@ from datetime import datetime, timedelta
 import pandas as pd
 import os
 import locale 
+import holidays
 
-locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+# locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+# feriados México
+mx_holidays = holidays.Mexico()
 
 # flps y cortes que tenemos 
 flps = [26, 28, 1, 3, 4, 8, 12, 13, 16, 18, 21]
 cortes = [3, 5, 8, 10, 11, 15, 19, 20, 23, 25, 28]
 
-# función para detectar 
-def mover_dias_corte(dia_asignacion):
-    weekday = dia_asignacion.strftime('%A')
-    condiciones = {'Sunday': 2}
-    return condiciones.get(weekday, 1)
-
-# mover_dias_corte(datetime.now())
-
-# función para obtener la asignación por corte del mes dado
 def fechas_corte(mes, anio):
-    f_act = datetime(1, mes, anio)
-    f_fut = f_act + timedelta(days=31)
-    print(datetime(anio, mes, 1).strftime('%B'))
-
-    fi_corte = []
-    ff_corte = []
+    """
+    Esta función genera las fechas de corte para   el mes y año dados.
+    """
+    fechas = []
     for corte in cortes:
-        fi_corte.append((datetime(anio, mes, corte) + timedelta(days=mover_dias_corte(datetime(anio, mes, corte + 1)))).strftime("%Y-%m-%d"))
-        ff_corte.append((datetime(f_fut.year, f_fut.month, corte)).strftime("%Y-%m-%d"))
+        fecha_corte = datetime(anio, mes, corte)
+        if fecha_corte.strftime("%A") == "Saturday":
+            fecha_asignacion = fecha_corte + timedelta(days=2)
+        else:
+            fecha_asignacion = fecha_corte + timedelta(days=1)
 
-    df_2PV = pd.concat([pd.Series(cortes), pd.Series(fi_corte), pd.Series(ff_corte)], axis=1)
-    print(df_2PV)
+        if fecha_asignacion.strftime("%Y-%m-%d") in mx_holidays:
+            fecha_asignacion = fecha_asignacion + timedelta(days=1)
 
+        siguiente_mes = fecha_corte + timedelta(days=29)
+        siguiente_corte = datetime(siguiente_mes.year, siguiente_mes.month, corte)
 
-fechas_corte(3,2024)
+        fechas.append([corte, fecha_asignacion, siguiente_corte])
+
+    df = pd.DataFrame(fechas, columns=["CORTE", "Fecha Asignación", "Fecha Fin"])
+
+    print(df)
+
+# fechas_corte(1,2025)
