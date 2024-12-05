@@ -39,6 +39,6 @@ def fechas_corte(mes, anio):
 
     df = pd.DataFrame(fechas, columns=["CORTE", "Fecha Asignación", "Fecha Fin"])
 
-    print(df)
+    return df
 
-# fechas_corte(1,2025)
+# (fechas_corte(12,2024)).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_2PV.txt", sep="\t", index=False, header=False)
