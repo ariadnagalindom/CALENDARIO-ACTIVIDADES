@@ -48,6 +48,7 @@ def fechas_D1(mes, anio):
     df = pd.DataFrame(fechas, columns=["CORTE", "Fecha Asignación", "Fecha Fin"])
     return df
 
-# fechas_D1(12,2024).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_D1.txt", sep="\t", index=False, header=False)
+# print(fechas_D1(1,2025))    
+# fechas_D1(1,2025).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_D1.txt", sep="\t", index=False, header=False)
 
         

@@ -43,6 +43,6 @@ def fechas_preventiva(mes, anio):
         fechas.append([get_corte(flp=flp), fecha_asignacion, fecha_corte])
     
     df = pd.DataFrame(fechas, columns=["CORTE", "Fecha Asignación", "Fecha Fin"])
-    print(df)
+    return df
 
-fechas_preventiva(1,2025)
+# fechas_preventiva(12,2024)

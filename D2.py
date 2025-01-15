@@ -18,7 +18,7 @@ def get_corte(flp):
 
 def fechas_D2(mes, anio):
     """
-    Esta función genera las fechas de asignación correctiva para el mes y año dados.
+    Esta función genera las fechas de asignación D2 para el mes y año dados; al día siguiente de la asignación correctiva.
     """   
     fechas = []
     for flp in flps:
@@ -48,7 +48,7 @@ def fechas_D2(mes, anio):
     df = pd.DataFrame(fechas, columns=["CORTE", "Fecha Asignación", "Fecha Fin"])
     return df
 
-# print(fechas_D2(12,2024))
-# fechas_D2(12,2024).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_D2.txt", sep="\t", index=False, header=False)
+# print(fechas_D2(1,2025))
+# fechas_D2(1,2025).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_D2.txt", sep="\t", index=False, header=False)
 
         
