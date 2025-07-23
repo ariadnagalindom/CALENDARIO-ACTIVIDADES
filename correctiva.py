@@ -49,5 +49,5 @@ def fechas_correctiva(mes, anio):
     return df
 
 # fechas_correctiva(2,2025)
-# fechas_correctiva(12,2024).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_1PV.txt", sep="\t", index=False, header=False)
+# fechas_correctiva(4,2025).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_1PV.txt", sep="\t", index=False, header=False)
         

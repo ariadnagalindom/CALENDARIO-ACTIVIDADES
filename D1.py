@@ -18,28 +18,31 @@ def get_corte(flp):
 
 def fechas_D1(mes, anio):
     """
-    Esta función genera las fechas de asignación correctiva para el mes y año dados.
+    Esta función genera las fechas de asignación D1 para el mes y año dados; al día siguiente de la asignación correctiva.
     """   
     fechas = []
     for flp in flps:
         fecha_correctiva = datetime(anio, mes, flp)
-        if fecha_correctiva.strftime("%A") == "Sunday":
+        '''
+        lunes: asigna t+1 D2: t+2
+        martes: asigna t+1 D2: t+2
+        miercoles: asigna t+1 D2: t+2
+        jueves: asigna t+1 D2: t+4
+        viernes: asigna t+3 D2: t+4
+        sabado: asigna t+3 D2: t+4
+        domingo: asigna t+2 D2: t+3
+        '''
+        # print(fecha_correctiva.strftime("%A"))
+        if fecha_correctiva.strftime("%A") == "Monday" or fecha_correctiva.strftime("%A") == 'Tuesday' or fecha_correctiva.strftime("%A") == 'Wednesday':
             fecha_asignacion = fecha_correctiva + timedelta(days=2)
-        elif fecha_correctiva.strftime("%A") == "Saturday":
-            fecha_asignacion = fecha_correctiva + timedelta(days=3)
+        elif fecha_correctiva.strftime("%A") == "Thursday" or fecha_correctiva.strftime("%A") == "Friday" or fecha_correctiva.strftime("%A") == "Saturday" :
+            fecha_asignacion = fecha_correctiva + timedelta(days=4)
         else:
-            fecha_asignacion = fecha_correctiva + timedelta(days=1)
-
-        if fecha_asignacion.strftime("%A") == "Sunday":
-            fecha_asignacion = fecha_asignacion + timedelta(days=1)
-            
-        if fecha_asignacion.strftime("%A") == "Saturday":
-            fecha_asignacion = fecha_asignacion + timedelta(days=2)
+            fecha_asignacion = fecha_correctiva + timedelta(days=3)
 
         # mover un día si es feriado nacional
         if fecha_asignacion.strftime("%Y-%m-%d") in mx_holidays:
             fecha_asignacion = fecha_asignacion + timedelta(days=1)
-
 
         fecha_corte = datetime(anio, mes, get_corte(flp))
 
@@ -48,7 +51,7 @@ def fechas_D1(mes, anio):
     df = pd.DataFrame(fechas, columns=["CORTE", "Fecha Asignación", "Fecha Fin"])
     return df
 
-# print(fechas_D1(1,2025))    
-# fechas_D1(1,2025).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_D1.txt", sep="\t", index=False, header=False)
+# print(fechas_D1(1,2025))
+# fechas_D1(6,2025).to_csv(r"\\172.16.39.32\recepcion\FECHAS\FECHAS_D1.txt", sep="\t", index=False, header=False)
 
         
